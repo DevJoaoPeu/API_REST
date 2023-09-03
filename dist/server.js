@@ -6,9 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const UserController_1 = __importDefault(require("./controllers/UserController"));
 const PostController_1 = __importDefault(require("./controllers/PostController"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const PORT = process.env.PORT || 8000;
+app.use((request, response, next) => {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Access-Control-Allow-Headers", "*");
+    response.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+    app.use((0, cors_1.default)());
+    next();
+});
 app.get("/", (request, response) => {
     response.send("Hello World!");
 });
