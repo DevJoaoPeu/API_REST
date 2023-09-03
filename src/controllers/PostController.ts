@@ -9,7 +9,7 @@ export default {
       const { title, content, userId } = request.body;
 
       const createPost = new CreatePostService(new PostRepository());
-      
+
       const post = await createPost.execute(title, content, userId);
 
       return response.json({
@@ -38,6 +38,23 @@ export default {
       return response.json({
         error: false,
         post,
+      });
+    } catch (error) {
+      return response.json({ message: error.message });
+    }
+  },
+  async listAllPosts(request: Request, response: Response) {
+    try {
+      const posts = await prisma.post.findMany();
+      if (!posts) {
+        return response.json({
+          error: true,
+          message: "Error: Não há nenhum post no momento.",
+        });
+      }
+      return response.json({
+        error: false,
+        posts,
       });
     } catch (error) {
       return response.json({ message: error.message });

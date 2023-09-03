@@ -4,7 +4,7 @@ import PostController from "./controllers/PostController";
 
 const app = Express();
 app.use(Express.json());
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.get("/", (request, response) => {
   response.send("Hello World!");
@@ -13,6 +13,7 @@ app.get("/", (request, response) => {
 app.post("/createUsers", UserController.createUser);
 app.post("/createPosts", PostController.createPost);
 app.get("/listPost/:id", PostController.listPost);
+app.get("/listAllPosts", PostController.listAllPosts)
 app.put("/updatePost/:id", PostController.updatePost);
 app.delete("/deletePost/:id", PostController.deletePost);
 
